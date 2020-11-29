@@ -1,0 +1,26 @@
+# states
+q0,q1,q2,q3,q4
+# initialState
+q0
+# finalState
+q4
+# symbol
+0,1
+# initial value
+@
+# null symbol
+!
+# helpers
+x,y
+
+q0, @, q0, 0, +
+q0, 0, q1, x, +
+q1, 0, q1, 0, +
+q1, y, q1, y, +
+q1, 1, q1, y, +
+q2, y, q2, y, -
+q2, 0, q2, 0, -
+q2, x, q0, x, +
+q0, y, q3, y, +
+q3, y, q3, y, +
+q3, !, q4, !, +
