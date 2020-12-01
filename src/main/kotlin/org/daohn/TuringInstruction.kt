@@ -17,3 +17,5 @@ data class TuringInstruction(
         nextState = data[3]
     )
 }
+
+typealias TuringTable = List<TuringInstruction>

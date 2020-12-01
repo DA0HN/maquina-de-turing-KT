@@ -29,7 +29,7 @@ class FileManager {
         )
     }
 
-    private fun transitionRules(reader: BufferedReader): List<Rules> {
+    private fun transitionRules(reader: BufferedReader): TuringTable {
         return reader
             // Retorna uma stream de dados com o conteúdo do arquivo
             .lines()
@@ -40,12 +40,12 @@ class FileManager {
             // Mapeia a linha atual para uma Lista de String para cada elemento entre a virgula
             .map { line -> line.trim().split(",") }
             // Mapeia a lista de String para um objeto Rule
-            .map(::Rules)
+            .map(::TuringInstruction)
             // Converte ao final em uma lista de Rule
             .toList()
     }
 
-    fun loadConfigurations(path: String): Pair<Configuration, List<Rules>> {
+    fun loadConfigurations(path: String): Pair<Configuration, TuringTable> {
         newBufferedReader(Paths.get(path)).use { reader ->
             val configuration = configurationParameters(reader)
             val rules = transitionRules(reader)
