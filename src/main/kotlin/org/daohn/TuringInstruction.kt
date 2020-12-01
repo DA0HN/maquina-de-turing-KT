@@ -4,7 +4,7 @@ package org.daohn
  * @project MaquinaDeTuring
  * @author daohn on 28/11/2020
  */
-data class Rules(
+data class TuringInstruction(
     val currentState: String,
     val currentSymbol: String,
     val nextSymbol: String,
