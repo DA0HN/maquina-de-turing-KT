@@ -11,32 +11,45 @@ import kotlin.streams.toList
  */
 class FileManager {
 
-    private fun configurationParameters(reader: BufferedReader, currentLine: Int): Configuration? {
-        val lines = reader
-            .lines()                                                // Retorna um stream de dados com o conteúdo do arquivo
-            .filter { line -> !line.contains("#") }          // Remove os comentários
-            .filter { line -> line.isNotBlank() && line.isNotEmpty() }               // Remove linhas em
-            // branco
-            .limit(7)                                      // Recupera apenas as 7 primeiras linhas
-            // Converte para uma Lista de String separada por virgula
-            .map { line ->
-                line.trim().split(",")
-            }
-            .toList()                                              // Adiciona as Listas a uma outra lista
-        val config = Configuration(lines)
-        println(config)
-        return config
+    private val numberParameters: Long = 7
+
+    private fun configurationParameters(reader: BufferedReader): Configuration {
+        return Configuration(
+            reader
+                // Retorna um stream de dados com o conteúdo do arquivo
+                .lines()
+                // Remove os comentários e linhas em branco
+                .filter { line -> !line.contains("#") && line.isNotBlank() && line.isNotEmpty() }
+                // Recupera apenas as 7 primeiras linhas
+                .limit(numberParameters)
+                // Converte para uma Lista de String separada por virgula
+                .map { line -> line.trim().split(",") }
+                // Adiciona as Listas a uma outra lista
+                .toList()
+        )
     }
 
-    private fun transitionRules(reader: BufferedReader, currentLine: Int): Rules? {
-        return null
+    private fun transitionRules(reader: BufferedReader): List<Rules> {
+        return reader
+            // Retorna uma stream de dados com o conteúdo do arquivo
+            .lines()
+            // Remove os comentários e linhas em branco
+            .filter { line -> !line.contains("#") && line.isNotBlank() && line.isNotEmpty() }
+            // Pula os 7 parâmetros da máquina de turing
+            .skip(numberParameters)
+            // Mapeia a linha atual para uma Lista de String para cada elemento entre a virgula
+            .map { line -> line.trim().split(",") }
+            // Mapeia a lista de String para um objeto Rule
+            .map(::Rules)
+            // Converte ao final em uma lista de Rule
+            .toList()
     }
 
-    fun loadConfigurations(path: String): Pair<Configuration?, Rules?> {
-        var currentLine = 0
+    fun loadConfigurations(path: String): Pair<Configuration, List<Rules>> {
         newBufferedReader(Paths.get(path)).use { reader ->
-            val configuration = configurationParameters(reader, currentLine)
-            val rules = transitionRules(reader, currentLine)
+            val configuration = configurationParameters(reader)
+            val rules = transitionRules(reader)
+
             return Pair(configuration, rules)
         }
     }

@@ -13,7 +13,6 @@ q4
 # helpers
 x,y
 
-~rules
 
 q0, @, q0, 0, +
 q0, 0, q1, x, +
