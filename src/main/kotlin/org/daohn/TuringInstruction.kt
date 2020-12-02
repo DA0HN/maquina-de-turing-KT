@@ -9,12 +9,18 @@ data class TuringInstruction(
     val currentSymbol: String,
     val nextSymbol: String,
     val nextState: String,
+    val movement: Int
 ) {
     constructor(data: List<String>) : this(
         currentState = data[0],
         currentSymbol = data[1],
-        nextSymbol = data[2],
-        nextState = data[3]
+        nextState = data[2],
+        nextSymbol = data[3],
+        movement = when (data[4]) {
+            "+" -> 1
+            "-" -> -1
+            else -> 0
+        }
     )
 }
 
