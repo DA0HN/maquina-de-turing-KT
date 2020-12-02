@@ -23,22 +23,21 @@ class FileManager {
                 // Recupera apenas as 7 primeiras linhas
                 .limit(numberParameters)
                 // Converte para uma Lista de String separada por virgula
-                .map { line -> line.trim().split(",") }
+                .map { line -> line.replace(" ", "").split(",") }
                 // Adiciona as Listas a uma outra lista
                 .toList()
         )
     }
 
     private fun transitionRules(reader: BufferedReader): TuringTable {
+
         return reader
             // Retorna uma stream de dados com o conteúdo do arquivo
             .lines()
             // Remove os comentários e linhas em branco
             .filter { line -> !line.contains("#") && line.isNotBlank() && line.isNotEmpty() }
-            // Pula os 7 parâmetros da máquina de turing
-            .skip(numberParameters)
             // Mapeia a linha atual para uma Lista de String para cada elemento entre a virgula
-            .map { line -> line.trim().split(",") }
+            .map { line -> line.replace(" ", "").split(",") }
             // Mapeia a lista de String para um objeto Rule
             .map(::TuringInstruction)
             // Converte ao final em uma lista de Rule
